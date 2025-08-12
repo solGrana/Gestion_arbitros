@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Gestión de Torneos</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Sistema de Gestión Arbitral</h1>
+  </header>
+
+  <div class="sidebar">
+    <nav class="nav-tabs">
+      <button data-seccion="torneos" onclick="mostrarSeccion('torneos')" class="activo">Torneos</button>
+      <button data-seccion="partidos" onclick="mostrarSeccion('partidos')">Partidos</button>
+      <button data-seccion="personas" onclick="mostrarSeccion('personas')">Personas</button>
+    </nav>
+  </div>
+
+  <div class="container">
+    <main>
+      <!-- TORNEOS -->
+      <div id="seccion-torneos" class="seccion">
+        <section class="form-section">
+          <h2>Torneos</h2>
+          <button class="Agregar" id="btnAbrirModalTorneo">Agregar Torneo</button>
+        </section>
+        <section class="list-section">
+          <h2>Lista de Torneos</h2>
+          <ul id="listaTorneos"></ul>
+        </section>
+      </div>
+
+      <!-- PARTIDOS -->
+      <div id="seccion-partidos" class="seccion hidden">
+        <section class="form-section">
+          <h2>Partidos</h2>
+          <button class="Agregar" id="btnAbrirModalPartido">Agregar Partido</button>
+        </section>
+        <section class="list-section">
+          <h2>Partidos Cargados</h2>
+          <ul id="listaPartidos"></ul>
+        </section>
+        <section class="list-section">
+          <h2>Designaciones</h2>
+          <ul id="listaDesignaciones"></ul>
+        </section>
+      </div>
+
+      <!-- PERSONAS -->
+      <div id="seccion-personas" class="seccion hidden">
+        <section class="form-section">
+          <h2>Registrar Persona</h2>
+          <button class="Agregar" id="btnAbrirModalPersona">Agregar Persona</button>
+        </section>
+        <section class="list-section">
+          <h2>Personas Registradas</h2>
+          <ul id="listaPersonas"></ul>
+        </section>
+      </div>
+    </main>
+
+    <!-- Modales -->
+    <div id="modalTorneo" class="modal hidden">
+      <div class="modal-content">
+        <span class="close-button" data-modal="modalTorneo">×</span>
+        <h2 id="tituloModalTorneo">Agregar Torneo</h2>
+        <form id="torneoForm">
+          <input type="text" id="nombreTorneo" placeholder="Nombre del Torneo" required />
+          <h4>Fecha inicio</h4>
+          <input type="date" id="fechaInicio" required />
+          <h4>Fecha fin</h4>
+          <input type="date" id="fechaFin" required />
+          <button type="submit">Guardar Torneo</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="modalPartido" class="modal hidden">
+      <div class="modal-content">
+        <span class="close-button" data-modal="modalPartido">×</span>
+        <h2 id="tituloModalPartido">Agregar Partido</h2>
+        <form id="partidoFormModal">
+          <label for="modalTorneoSelect">Torneo:</label>
+          <select id="modalTorneoSelect" required></select><br /><br />
+          <input type="date" id="modalFechaPartido" required />
+          <input type="time" id="modalHoraPartido" required />
+          <input type="text" id="modalCancha" placeholder="Cancha / Ubicación" required />
+          <input type="text" id="modalEquipoLocal" placeholder="Equipo local" required />
+          <input type="text" id="modalEquipoVisitante" placeholder="Equipo visitante" required />
+          <input type="text" id="modalObservaciones" placeholder="Observaciones" />
+          <button type="submit">Guardar Partido</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="modalPersona" class="modal hidden">
+      <div class="modal-content">
+        <span class="close-button" data-modal="modalPersona">×</span>
+        <h2 id="tituloModalPersona">Agregar Persona</h2>
+        <form id="personaFormModal">
+          <input type="text" id="modalNombrePersona" placeholder="Nombre completo" required />
+          <input type="text" id="modalAlias" placeholder="Alias de transferencia" />
+          <input type="text" id="modalCelular" placeholder="Celular" />
+          <input type="email" id="modalMail" placeholder="Correo electrónico" />
+          <input type="text" id="modalInstagram" placeholder="Instagram" />
+          <input type="text" id="modalLocalidad" placeholder="Localidad" />
+          <label><input type="checkbox" id="modalTieneAuto" /> Tiene auto</label>
+          <br /><br />
+          <button type="submit">Guardar Persona</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="modalAsignacion" class="modal hidden">
+      <div class="modal-content">
+        <span class="close-button" data-modal="modalAsignacion">×</span>
+        <h2>Asignar Personas al Partido</h2>
+        <form id="modalAsignacionForm">
+          <label>Árbitro Principal:</label>
+          <select id="modalArbitroPrincipal" required></select><br /><br />
+          <label>Asistente 1:</label>
+          <select id="modalAsistente1"></select><br /><br />
+          <label>Asistente 2:</label>
+          <select id="modalAsistente2"></select><br /><br />
+          <button type="submit">Guardar Asignación</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,354 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Global */
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f7f7f7; /* blanco hueso */
+  color: #4a4e69; /* gris oscuro suave */
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+html {
+  overflow-y: scroll;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  background-color: #6b7a8f; /* azul grisáceo mate */
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  padding: 15px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #a3bed8; /* azul mate claro para el texto */
+  font-weight: 700;
+  letter-spacing: 1.1px;
+}
+
+/* Sidebar fijo a la izquierda */
+.sidebar {
+  position: fixed;
+  top: 80px; /* debajo del header */
+  left: 0;
+  width: 15%;
+  height: calc(100% - 80px);
+  background-color: #e4e6eb;
+  padding: 15px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Contenedor principal con margen para sidebar */
+.container {
+  margin-top: 80px;
+  margin-left: 15%;
+  width: 85%;
+  max-width: 1000px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 10px 30px 30px 30px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Título principal */
+h1 {
+  font-size: 32px;
+  color: rgb(236, 237, 243);
+  margin-bottom: 20px;
+  margin-top: 20px;
+  letter-spacing: 1.2px;
+  font-weight: 700;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  max-width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Subtítulos */
+h2 {
+  margin-top: 40px;
+  margin-bottom: 16px;
+  font-size: 22px;
+  border-bottom: 2px solid #d8d9db;
+  padding-bottom: 4px;
+  color: #4a4e69;
+}
+
+/* Formularios */
+form {
+  background: #f0f1f3;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(74, 78, 105, 0.07);
+  margin-bottom: 30px;
+}
+
+form label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+  color: #4a4e69;
+}
+
+form input,
+form select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 4px;
+  margin-bottom: 16px;
+  border: 1px solid #d8d9db;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: 0.2s border-color;
+  color: #4a4e69;
+  background-color: #ffffff;
+}
+
+form input:focus,
+form select:focus {
+  border-color: #a3bed8;
+  outline: none;
+}
+
+/* Botones de los forms */
+form button {
+  background-color: #6b7a8f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s background-color ease;
+  box-shadow: 0 3px 6px rgba(107, 122, 143, 0.4);
+}
+
+form button:hover {
+  background-color: #556374;
+}
+
+/* Botones de agregar */
+button.Agregar {
+  background-color: #a3bed8;
+  color: #4a4e69;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 3px 6px rgba(163, 190, 216, 0.5);
+  margin-bottom: 10px;
+  align-self: flex-start;
+}
+
+button.Agregar:hover {
+  background-color: #8faacb;
+  color: #2f3542;
+}
+
+button:active {
+  background-color: #7a8ba1;
+  box-shadow: none;
+}
+
+/* Checkbox */
+label input[type="checkbox"] {
+  margin-right: 8px;
+  width: 16px;
+  height: 16px;
+}
+
+/* Lista general */
+ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+li {
+  background: #ffffff;
+  padding: 16px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(74, 78, 105, 0.05);
+  line-height: 1.5;
+  color: #4a4e69;
+  word-break: break-word;
+}
+
+li button {
+  margin-top: 10px;
+  margin-right: 8px;
+  padding: 8px 14px;
+  background-color: #556374;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#listaTorneos li {
+  box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.25);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30%;
+  min-width: 250px;
+  min-height: 130px;
+  padding: 15px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  background: white;
+}
+
+#listaTorneos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 35px;
+  justify-content: flex-start;
+  padding: 10px 0;
+}
+
+#seccion-torneos ul {
+  display: flex;
+  align-items: center;
+}
+
+#seccion-torneos li button {
+  width: 40%;
+  max-width: 100px;
+  margin: 10px;
+}
+
+li button:hover {
+  background-color: #3d4856;
+}
+
+.btn-asignado {
+  background-color: #52b788 !important;
+  font-weight: bold;
+  color: white !important;
+}
+
+.btn-asignado:hover {
+  background-color: #40916c !important;
+}
+
+/* Navegación lateral */
+.nav-tabs {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
+}
+
+.nav-tabs button {
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #e4e6eb;
+  color: #4a4e69;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.nav-tabs button:hover {
+  background-color: #b6bac0;
+}
+
+.nav-tabs button.activo {
+  background-color: #6b7a8f;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transform: scale(1.05);
+}
+
+/* Secciones */
+.seccion {
+  display: none;
+  padding: 10px 0;
+  overflow-y: auto;
+  max-height: 80vh;
+}
+
+.seccion:not(.hidden) {
+  display: block;
+}
+
+/* Modal */
+#modalAsignacion, #modalTorneo, #modalPartido, #modalPersona {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(74, 78, 105, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+#modalAsignacion.hidden,
+#modalTorneo.hidden,
+#modalPartido.hidden,
+#modalPersona.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: #f7f7f7;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(74, 78, 105, 0.15);
+  max-width: 450px;
+  width: 90%;
+  color: #4a4e69;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 12px;
+  right: 20px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #556374;
+  user-select: none;
+}
+
+.close-button:hover {
+  color: #2f3542;
+}
