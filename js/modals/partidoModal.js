@@ -53,6 +53,8 @@ export function editarPartidoPorNombre(torneoNombre, indiceEnTorneo, encontrarIn
   tituloModalPartido.textContent = 'Editar Partido';
   partidoFormModal.querySelector('button[type="submit"]').textContent = 'Guardar Cambios';
   modalPartido.classList.remove('hidden');
+  window.renderPartidosCallback();
+
 }
 
 export function eliminarPartidoPorNombre(torneoNombre, indiceEnTorneo, encontrarIndiceGlobalPartido, renderPartidos) {
@@ -92,7 +94,7 @@ partidoFormModal.addEventListener('submit', function (e) {
  if (typeof window.renderPartidosCallback === 'function') {
     window.renderPartidosCallback();
   }
-  
+
   partidoFormModal.reset();
   cerrarModalPartido();
 });

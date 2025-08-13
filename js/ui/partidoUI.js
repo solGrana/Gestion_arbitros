@@ -56,6 +56,8 @@ export class PartidoUI {
             <button data-torneo="${torneo.nombre}" data-index="${indexTorneo}" class="editar-partido">Editar</button>
             <button data-torneo="${torneo.nombre}" data-index="${indexTorneo}" class="eliminar-partido">Eliminar</button>
             <button data-torneo="${torneo.nombre}" data-index="${indexTorneo}" class="asignar-arbitros ${claseBoton}">${textoBoton}</button>
+            <button data-torneo="${torneo.nombre}" data-index="${indexTorneo}" class="exportar-partido">Exportar</button>
+
           `;
             if (tieneArbitros) {
                 li.innerHTML += `<br><em>Árbitro: ${p.arbitroPrincipal || 'N/A'}, Asistentes: ${p.asistente1 || 'N/A'}, ${p.asistente2 || 'N/A'}</em>`;

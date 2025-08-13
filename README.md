@@ -69,6 +69,8 @@ Actualmente los datos se guardan en **LocalStorage**, pero está preparado para 
 4. Agregar, editar y asignar árbitros según necesites.
 > 🔹 Para borrar todos los datos: limpiar el LocalStorage del navegador.
 
+---
+
 ### 🔮 Futuras mejoras
 
 - Conexión a base de datos para almacenamiento persistente.
