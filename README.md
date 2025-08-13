@@ -26,25 +26,6 @@ Actualmente los datos se guardan en **LocalStorage**, pero está preparado para 
 
 ---
 
-## 🖥 Interfaz
-
-### Lista de Partidos
-
-```text
-Fecha Hora | Equipo Local vs Equipo Visitante | Cancha | Observaciones
-[Editar] [Eliminar] [Asignar Árbitros / Editar Árbitros]
-Árbitro: Juan Pérez, Asistentes: Ana Gómez, Pedro Ruiz
-```
-
-### Modal de Asignación de Árbitros
-
-- Árbitro Principal
-- Asistente 1
-- Asistente 2
-- Botón para guardar asignación
-
----
-
 ## ⚙️ Tecnologías
 
 - **Frontend:** HTML, CSS, JavaScript (ES6+)
@@ -69,7 +50,8 @@ Fecha Hora | Equipo Local vs Equipo Visitante | Cancha | Observaciones
 ├─ /modals
 │ ├─ torneoModal.js
 │ ├─ personaModal.js
-│ └─ partidoModal.js
+│ ├─ partidoModal.js
+| └─ asignacionModal.js
 │
 ├─ utils.js
 ├─ main.js
@@ -90,7 +72,6 @@ Fecha Hora | Equipo Local vs Equipo Visitante | Cancha | Observaciones
 ### 🔮 Futuras mejoras
 
 - Conexión a base de datos para almacenamiento persistente.
-- Autenticación de usuarios.
 - Exportación de planillas de torneos y partidos.
 - Notificaciones y recordatorios automáticos.
 - Diseño responsive para móviles y tablets.
