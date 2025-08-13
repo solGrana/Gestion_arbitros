@@ -45,11 +45,22 @@ export class PartidoUI {
       } else {
         partidosDelTorneo.forEach((p, indexTorneo) => {
           const li = document.createElement('li');
+
+           // Verifica si ya tiene árbitros asignados
+          const tieneArbitros = p.arbitroPrincipal || p.asistente1 || p.asistente2;
+          const textoBoton = tieneArbitros ? "Editar Árbitros" : "Asignar Árbitros";
+          const claseBoton = tieneArbitros ? "btn-verde" : "btn-rojo";
+
           li.innerHTML = `
             <strong>${p.fecha} ${p.hora}</strong> | ${p.equipoLocal} vs ${p.equipoVisitante} | Cancha: ${p.cancha} | Observaciones: ${p.observaciones || 'Ninguna'}<br>
             <button data-torneo="${torneo.nombre}" data-index="${indexTorneo}" class="editar-partido">Editar</button>
             <button data-torneo="${torneo.nombre}" data-index="${indexTorneo}" class="eliminar-partido">Eliminar</button>
+            <button data-torneo="${torneo.nombre}" data-index="${indexTorneo}" class="asignar-arbitros ${claseBoton}">${textoBoton}</button>
           `;
+            if (tieneArbitros) {
+                li.innerHTML += `<br><em>Árbitro: ${p.arbitroPrincipal || 'N/A'}, Asistentes: ${p.asistente1 || 'N/A'}, ${p.asistente2 || 'N/A'}</em>`;
+            }
+
           ul.appendChild(li);
         });
       }

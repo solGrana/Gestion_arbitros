@@ -8,7 +8,7 @@ export class TorneoService {
   }
 
   obtenerTorneos() {
-    // Siempre devolver datos desde localStorage
+    // Siempre devolver datos actualizados desde localStorage
     this.torneos = obtenerDeLocalStorage(CLAVE);
     return this.torneos;
   }

@@ -352,3 +352,20 @@ li button:hover {
 .close-button:hover {
   color: #2f3542;
 }
+
+.btn-verde {
+  background-color: #A7F3D0; /* Verde pastel */
+  color: #065F46; /* Verde oscuro para contraste del texto */
+}
+.btn-verde:hover {
+  background-color: #86E8B7; /* Verde pastel un poco más intenso */
+}
+
+.btn-rojo {
+  background-color: #FCA5A5; /* Rojo pastel */
+  color: #7F1D1D; /* Rojo oscuro para contraste del texto */
+}
+
+.btn-rojo:hover {
+  background-color: #FB8B8B; /* Rojo pastel un poco más intenso */
+}

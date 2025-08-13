@@ -7,13 +7,14 @@ import { PartidoUI } from './ui/partidoUI.js';
 import { abrirModalTorneo, editarTorneo, eliminarTorneo } from './modals/torneoModal.js';
 import { abrirModalPersona, editarPersona, eliminarPersona } from './modals/personaModal.js';
 import { abrirModalPartido, editarPartidoPorNombre, eliminarPartidoPorNombre, llenarSelectTorneosModal } from './modals/partidoModal.js';
+import { abrirModalAsignacion } from './modals/asignacionModal.js';
 
 // Instancias UI y servicios
 const torneoUI = new TorneoUI();
 const personaUI = new PersonaUI();
 const partidoUI = new PartidoUI(torneoUI.servicio, personaUI.servicio);
 
-window.renderPartidosCallback = () => partidoUI.renderPartidos();
+window.renderPartidosCallback = () => partidoUI.renderPartidos(); // funcion global para renderizar partidos desde modales
 
 // Render inicial
 torneoUI.renderTorneos();
@@ -76,6 +77,11 @@ document.getElementById('listaPartidos').addEventListener('click', e => {
     const torneoNombre = e.target.dataset.torneo;
     const indiceEnTorneo = parseInt(e.target.dataset.index);
     eliminarPartidoPorNombre(torneoNombre, indiceEnTorneo, partidoUI.encontrarIndiceGlobalPartido.bind(partidoUI), partidoUI.renderPartidos.bind(partidoUI));
+  }
+    if (e.target.classList.contains('asignar-arbitros')) {
+    const torneoNombre = e.target.dataset.torneo;
+    const indiceEnTorneo = parseInt(e.target.dataset.index);
+    abrirModalAsignacion(torneoNombre, indiceEnTorneo, partidoUI.encontrarIndiceGlobalPartido.bind(partidoUI));
   }
 });
 
