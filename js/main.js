@@ -58,7 +58,6 @@ document.getElementById('listaPersonas').addEventListener('click', e => {
 });
 
 // --- PARTIDOS ---
-
 document.querySelector('#seccion-partidos > section.form-section > button')
   .addEventListener('click', abrirModalPartido);
 

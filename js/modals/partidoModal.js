@@ -86,13 +86,25 @@ partidoFormModal.addEventListener('submit', function (e) {
   };
   console.log("Partido a guardar:", nuevoPartido);
 
-  if (modoEdicionPartidoModal) {
-    partidoService.editarPartido(partidoEditandoIndexModal, nuevoPartido);
+if (modoEdicionPartidoModal) {
+    // Conservamos los árbitros existentes si los había
+    const partidoActual = partidoService.obtenerPartidos()[partidoEditandoIndexModal];
+    const partidoEditado = {
+        ...partidoActual,  // mantiene árbitros
+        torneo: modalTorneoSelect.value,
+        fecha: document.getElementById('modalFechaPartido').value,
+        hora: document.getElementById('modalHoraPartido').value,
+        cancha: document.getElementById('modalCancha').value.trim(),
+        equipoLocal: document.getElementById('modalEquipoLocal').value.trim(),
+        equipoVisitante: document.getElementById('modalEquipoVisitante').value.trim(),
+        observaciones: document.getElementById('modalObservaciones').value.trim() || ''
+    };
+    partidoService.editarPartido(partidoEditandoIndexModal, partidoEditado);
     modoEdicionPartidoModal = false;
     partidoEditandoIndexModal = null;
-  } else {
+} else {
     partidoService.agregarPartido(nuevoPartido);
-  }
+}
 
   if (typeof window.renderPartidosCallback === 'function') {
     window.renderPartidosCallback();
