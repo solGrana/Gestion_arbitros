@@ -12,3 +12,8 @@ export function obtenerDeLocalStorage(clave) {
 export function confirmar(mensaje) {
   return window.confirm(mensaje);
 }
+
+// funcion para generar un ID único
+export function generarIdUnico() {
+  return crypto.randomUUID();;
+}

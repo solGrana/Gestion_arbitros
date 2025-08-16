@@ -14,11 +14,17 @@ export class TorneoService {
   }
 
   agregarTorneo(torneo) {
+    // Asegurarse de que cada torneo tenga un torneo_id único
+    if (!torneo.torneo_id) {
+      torneo.torneo_id = generarIdUnico();
+    }
     this.torneos.push(torneo);
     this._guardar();
   }
 
   editarTorneo(index, torneo) {
+    // Mantener el torneo_id original
+    torneo.torneo_id = this.torneos[index].torneo_id;
     this.torneos[index] = torneo;
     this._guardar();
   }

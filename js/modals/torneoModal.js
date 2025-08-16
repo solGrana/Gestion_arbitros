@@ -5,6 +5,7 @@ import { llenarSelectTorneosModal } from './partidoModal.js'; */
 import { TorneoService } from '../services/torneoService.js';
 import { TorneoUI } from '../ui/torneoUI.js';
 import { llenarSelectTorneosModal } from './partidoModal.js';
+import { generarIdUnico } from '../utils.js';
 
 const torneoUI = new TorneoUI();
 
@@ -56,18 +57,31 @@ export function eliminarTorneo(index) {
 
 torneoForm.addEventListener('submit', function (e) {
   e.preventDefault();
-  const nuevoTorneo = {
-    nombre: document.getElementById('nombreTorneo').value,
-    fechaInicio: document.getElementById('fechaInicio').value,
-    fechaFin: document.getElementById('fechaFin').value
-  };
+
+  const nombre = document.getElementById('nombreTorneo').value;
+  const fechaInicio = document.getElementById('fechaInicio').value;
+  const fechaFin = document.getElementById('fechaFin').value;
+
+  let nuevoTorneo;
 
   if (modoEdicionTorneo) {
+    const tExistente = torneoService.obtenerTorneos()[torneoEditandoIndex];
+    nuevoTorneo = {
+      nombre,
+      fechaInicio,
+      fechaFin,
+      torneo_id: tExistente.torneo_id // mantener id existente
+    };
     torneoService.editarTorneo(torneoEditandoIndex, nuevoTorneo);
     modoEdicionTorneo = false;
     torneoEditandoIndex = null;
-    torneoForm.querySelector('button[type="submit"]').textContent = 'Guardar Torneo';
   } else {
+    nuevoTorneo = {
+      nombre,
+      fechaInicio,
+      fechaFin,
+      torneo_id: generarIdUnico() // solo al crear
+    };
     torneoService.agregarTorneo(nuevoTorneo);
   }
 
@@ -77,8 +91,3 @@ torneoForm.addEventListener('submit', function (e) {
   cerrarModalTorneo();
 });
 
-window.addEventListener('click', function(e) {
-  if (e.target === modalTorneo) {
-    cerrarModalTorneo();
-  }
-});

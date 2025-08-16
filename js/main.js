@@ -6,7 +6,7 @@ import { PartidoUI } from './ui/partidoUI.js';
 
 import { abrirModalTorneo, editarTorneo, eliminarTorneo } from './modals/torneoModal.js';
 import { abrirModalPersona, editarPersona, eliminarPersona } from './modals/personaModal.js';
-import { abrirModalPartido, editarPartidoPorNombre, eliminarPartidoPorNombre, llenarSelectTorneosModal } from './modals/partidoModal.js';
+import { abrirModalPartido, editarPartidoPorId, eliminarPartidoPorId, llenarSelectTorneosModal } from './modals/partidoModal.js';
 import { abrirModalAsignacion } from './modals/asignacionModal.js';
 
 // Instancias UI y servicios
@@ -14,7 +14,7 @@ const torneoUI = new TorneoUI();
 const personaUI = new PersonaUI();
 const partidoUI = new PartidoUI(torneoUI.servicio, personaUI.servicio);
 
-window.renderPartidosCallback = () => partidoUI.renderPartidos(); // funcion global para renderizar partidos desde modales
+window.renderPartidosCallback = () => partidoUI.renderPartidos(); // función global para renderizar partidos desde modales
 
 // Render inicial
 torneoUI.renderTorneos();
@@ -23,37 +23,33 @@ partidoUI.renderPartidos();
 
 // --- TORNEOS ---
 
-// Botón abrir modal torneo
-document.querySelector('#seccion-torneos > section.form-section > button').addEventListener('click', abrirModalTorneo);
+document.querySelector('#seccion-torneos > section.form-section > button')
+  .addEventListener('click', abrirModalTorneo);
 
-// Delegación de eventos en la lista de torneos (editar y eliminar)
 document.getElementById('listaTorneos').addEventListener('click', e => {
     if (e.target.classList.contains('editar-torneo')) {
         const index = parseInt(e.target.dataset.index);
         editarTorneo(index);
         torneoUI.renderTorneos();
-
     }
     if (e.target.classList.contains('eliminar-torneo')) {
         const index = parseInt(e.target.dataset.index);
         eliminarTorneo(index);
-        partidoUI.renderPartidos(); // Actualiza partidos porque puede afectar
+        partidoUI.renderPartidos();
         torneoUI.renderTorneos();
     }
 });
 
 // --- PERSONAS ---
 
-// Botón abrir modal persona
-document.querySelector('#seccion-personas > section.form-section > button').addEventListener('click', abrirModalPersona);
+document.querySelector('#seccion-personas > section.form-section > button')
+  .addEventListener('click', abrirModalPersona);
 
-// Delegación de eventos en la lista de personas (editar y eliminar)
 document.getElementById('listaPersonas').addEventListener('click', e => {
     if (e.target.classList.contains('editar-persona')) {
         const index = parseInt(e.target.dataset.index);
         editarPersona(index);
         personaUI.renderPersonas();
-
     }
     if (e.target.classList.contains('eliminar-persona')) {
         const index = parseInt(e.target.dataset.index);
@@ -63,29 +59,25 @@ document.getElementById('listaPersonas').addEventListener('click', e => {
 
 // --- PARTIDOS ---
 
-// Botón abrir modal partido
-document.querySelector('#seccion-partidos > section.form-section > button').addEventListener('click', abrirModalPartido);
+document.querySelector('#seccion-partidos > section.form-section > button')
+  .addEventListener('click', abrirModalPartido);
 
-// Delegación de eventos en la lista de partidos (editar y eliminar)
 document.getElementById('listaPartidos').addEventListener('click', e => {
+    const torneo_id = e.target.dataset.torneo;
+    const indiceEnTorneo = parseInt(e.target.dataset.index);
+
     if (e.target.classList.contains('editar-partido')) {
-        const torneoNombre = e.target.dataset.torneo;
-        const indiceEnTorneo = parseInt(e.target.dataset.index);
-        editarPartidoPorNombre(torneoNombre, indiceEnTorneo, partidoUI.encontrarIndiceGlobalPartido.bind(partidoUI));
+        editarPartidoPorId(torneo_id, indiceEnTorneo, partidoUI.encontrarIndiceGlobalPartido.bind(partidoUI));
     }
     if (e.target.classList.contains('eliminar-partido')) {
-        const torneoNombre = e.target.dataset.torneo;
-        const indiceEnTorneo = parseInt(e.target.dataset.index);
-        eliminarPartidoPorNombre(torneoNombre, indiceEnTorneo, partidoUI.encontrarIndiceGlobalPartido.bind(partidoUI), partidoUI.renderPartidos.bind(partidoUI));
+        eliminarPartidoPorId(torneo_id, indiceEnTorneo, partidoUI.encontrarIndiceGlobalPartido.bind(partidoUI), partidoUI.renderPartidos.bind(partidoUI));
     }
     if (e.target.classList.contains('asignar-arbitros')) {
-        const torneoNombre = e.target.dataset.torneo;
-        const indiceEnTorneo = parseInt(e.target.dataset.index);
-        abrirModalAsignacion(torneoNombre, indiceEnTorneo, partidoUI.encontrarIndiceGlobalPartido.bind(partidoUI));
+        abrirModalAsignacion(torneo_id, indiceEnTorneo, partidoUI.encontrarIndiceGlobalPartido.bind(partidoUI));
     }
 });
 
-// Actualizar listado partidos después de cerrar modal partido (para reflejar cambios)
+// Actualizar listado partidos después de cerrar modal partido
 const modalPartido = document.getElementById('modalPartido');
 modalPartido.addEventListener('transitionend', () => {
     if (modalPartido.classList.contains('hidden')) {
@@ -93,66 +85,45 @@ modalPartido.addEventListener('transitionend', () => {
     }
 });
 
+// Función para mostrar secciones
 function mostrarSeccion(seccion) {
-    // Ocultar todas las secciones
     const secciones = document.querySelectorAll('.seccion');
     secciones.forEach(sec => sec.classList.add('hidden'));
 
-    // Mostrar la sección seleccionada
     const secMostrar = document.getElementById(`seccion-${seccion}`);
-    if (secMostrar) {
-        secMostrar.classList.remove('hidden');
-    }
+    if (secMostrar) secMostrar.classList.remove('hidden');
 
-    // Actualizar botones activos
     const botones = document.querySelectorAll('.nav-tabs button');
     botones.forEach(btn => {
-        if (btn.dataset.seccion === seccion) {
-            btn.classList.add('activo');
-        } else {
-            btn.classList.remove('activo');
-        }
+        btn.classList.toggle('activo', btn.dataset.seccion === seccion);
     });
 }
 
-// Mostrar la sección "torneos" al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
     mostrarSeccion('torneos');
 });
-window.mostrarSeccion = mostrarSeccion;  // Hacer la funcion accesible globalmente
+window.mostrarSeccion = mostrarSeccion;
 
-
+// Cerrar modales
 document.querySelectorAll('.close-button').forEach(btn => {
     btn.addEventListener('click', () => {
-        // Según el modal padre, lo ocultás
         const modal = btn.closest('.modal');
         if (modal) modal.classList.add('hidden');
     });
 });
 
+// Exportar partido
 function exportarPartido(partido) {
-    // Función para formatear fecha a "Miércoles 13 de Agosto"
     function formatearFecha(fechaISO) {
-        // Crear objeto Date tomando solo año, mes, día para evitar desfase horario
         const [year, month, day] = fechaISO.split('-');
-        const fecha = new Date(year, month - 1, day); // mes empieza en 0
-
+        const fecha = new Date(year, month - 1, day);
         const opciones = { weekday: 'long', day: 'numeric', month: 'long' };
-        const fechaFormateada = fecha.toLocaleDateString('es-ES', opciones);
-
-        // Eliminar la coma y poner la primera letra en mayúscula
-        return fechaFormateada.replace(',', '').replace(/^./, str => str.toUpperCase());
+        return fecha.toLocaleDateString('es-ES', opciones).replace(',', '').replace(/^./, str => str.toUpperCase());
     }
 
-
     const fechaFormateada = formatearFecha(partido.fecha);
+    const observaciones = partido.observaciones && partido.observaciones.trim() !== '' ? `\n\n❗ ${partido.observaciones.trim()}` : '';
 
-    // Observaciones solo si existen
-    const observaciones = partido.observaciones && partido.observaciones.trim() !== ''
-        ? `\n\n❗ ${partido.observaciones.trim()}`
-        : '';
-
-    // Texto del partido
     let contenido = `
 Torneo ${partido.torneo}.
 
@@ -164,15 +135,13 @@ ${fechaFormateada}
 ⚽ ${partido.equipoLocal} vs ${partido.equipoVisitante}${observaciones}
 `;
 
-    // Solo mostrar árbitros asignados
     if (partido.arbitroPrincipal || partido.asistente1 || partido.asistente2) {
-        contenido += `\n_____________________________________________\n\n`;
+        contenido += `\n_______________________________\n\n`;
         if (partido.arbitroPrincipal) contenido += `Árbitro: ${partido.arbitroPrincipal}\n`;
         if (partido.asistente1) contenido += `Asist 1: ${partido.asistente1}\n`;
         if (partido.asistente2) contenido += `Asist 2: ${partido.asistente2}\n`;
     }
 
-    // Crear blob y generar link de descarga
     const blob = new Blob([contenido], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -182,15 +151,13 @@ ${fechaFormateada}
     URL.revokeObjectURL(url);
 }
 
-// Delegación de evento para exportar
+// Delegación de evento para exportar partidos
 document.getElementById('listaPartidos').addEventListener('click', e => {
     if (e.target.classList.contains('exportar-partido')) {
-        const torneoNombre = e.target.dataset.torneo;
+        const torneo_id = e.target.dataset.torneo;
         const indiceEnTorneo = parseInt(e.target.dataset.index);
-        const i = partidoUI.encontrarIndiceGlobalPartido(torneoNombre, indiceEnTorneo);
+        const i = partidoUI.encontrarIndiceGlobalPartido(torneo_id, indiceEnTorneo);
         const partido = partidoUI.servicio.obtenerPartidos()[i];
         exportarPartido(partido);
     }
 });
-
-

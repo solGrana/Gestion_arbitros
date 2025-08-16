@@ -15,9 +15,10 @@ let partidoEditandoIndexModal = null;
 export function llenarSelectTorneosModal() {
   modalTorneoSelect.innerHTML = '<option value="" disabled selected>-- Selecciona un torneo --</option>';
   torneoService.obtenerTorneos().forEach(torneo => {
+    console.log("Cargando torneo en select:", torneo.torneo_id, torneo.nombre);
     const option = document.createElement('option');
-    option.value = torneo.nombre;
-    option.textContent = torneo.nombre;
+    option.value = torneo.torneo_id; // usamos el id como value
+    option.textContent = torneo.nombre; // mostramos el nombre
     modalTorneoSelect.appendChild(option);
   });
 }
@@ -36,8 +37,9 @@ export function cerrarModalPartido() {
   modalPartido.classList.add('hidden');
 }
 
-export function editarPartidoPorNombre(torneoNombre, indiceEnTorneo, encontrarIndiceGlobalPartido) {
-  const i = encontrarIndiceGlobalPartido(torneoNombre, indiceEnTorneo);
+// Ahora recibe torneo_id
+export function editarPartidoPorId(torneo_id, indiceEnTorneo, encontrarIndiceGlobalPartido) {
+  const i = encontrarIndiceGlobalPartido(torneo_id, indiceEnTorneo);
   if (i === -1) return alert('Partido no encontrado');
   const p = partidoService.obtenerPartidos()[i];
   llenarSelectTorneosModal();
@@ -54,14 +56,14 @@ export function editarPartidoPorNombre(torneoNombre, indiceEnTorneo, encontrarIn
   partidoFormModal.querySelector('button[type="submit"]').textContent = 'Guardar Cambios';
   modalPartido.classList.remove('hidden');
   window.renderPartidosCallback();
-
 }
 
-export function eliminarPartidoPorNombre(torneoNombre, indiceEnTorneo, encontrarIndiceGlobalPartido, renderPartidos) {
-  const i = encontrarIndiceGlobalPartido(torneoNombre, indiceEnTorneo);
+// Ahora recibe torneo_id
+export function eliminarPartidoPorId(torneo_id, indiceEnTorneo, encontrarIndiceGlobalPartido, renderPartidos) {
+  const i = encontrarIndiceGlobalPartido(torneo_id, indiceEnTorneo);
   if (i === -1) return alert('Partido no encontrado');
   if (!confirm('¿Eliminar este partido?')) return;
-  partidoService.eliminarPartido(i); //callback
+  partidoService.eliminarPartido(i);
   renderPartidos();
 }
 
@@ -74,7 +76,7 @@ partidoFormModal.addEventListener('submit', function (e) {
   }
 
   const nuevoPartido = {
-    torneo: modalTorneoSelect.value,
+    torneo: modalTorneoSelect.value, // guardamos el torneo_id
     fecha: document.getElementById('modalFechaPartido').value,
     hora: document.getElementById('modalHoraPartido').value,
     cancha: document.getElementById('modalCancha').value.trim(),
@@ -82,6 +84,7 @@ partidoFormModal.addEventListener('submit', function (e) {
     equipoVisitante: document.getElementById('modalEquipoVisitante').value.trim(),
     observaciones: document.getElementById('modalObservaciones').value.trim() || ''
   };
+  console.log("Partido a guardar:", nuevoPartido);
 
   if (modoEdicionPartidoModal) {
     partidoService.editarPartido(partidoEditandoIndexModal, nuevoPartido);
@@ -91,7 +94,7 @@ partidoFormModal.addEventListener('submit', function (e) {
     partidoService.agregarPartido(nuevoPartido);
   }
 
- if (typeof window.renderPartidosCallback === 'function') {
+  if (typeof window.renderPartidosCallback === 'function') {
     window.renderPartidosCallback();
   }
 
