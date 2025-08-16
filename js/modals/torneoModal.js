@@ -2,7 +2,7 @@
 import { TorneoUI } from '../ui/torneoUI.js';
 import { llenarSelectTorneosModal } from './partidoModal.js'; */
 
-import { TorneoService } from '../services/TorneoService.js';
+import { TorneoService } from '../services/torneoService.js';
 import { TorneoUI } from '../ui/torneoUI.js';
 import { llenarSelectTorneosModal } from './partidoModal.js';
 
@@ -51,7 +51,6 @@ export function eliminarTorneo(index) {
     torneoService.eliminarTorneo(index);
     torneoUI.renderTorneos();
     llenarSelectTorneosModal();
-    // Aquí podrías disparar evento para actualizar partidos también
   }
 }
 
