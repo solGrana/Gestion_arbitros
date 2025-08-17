@@ -52,13 +52,13 @@ export function eliminarTorneo(index) {
 
 torneoForm.addEventListener('submit', function (e) {
   e.preventDefault();
-
+  
   const nombre = document.getElementById('nombreTorneo').value.trim();
   const fechaInicio = document.getElementById('fechaInicio').value;
   const fechaFin = document.getElementById('fechaFin').value;
-
+  
   let nuevoTorneo;
-
+  
   if (modoEdicionTorneo) {
     const tExistente = torneoService.obtenerTorneos()[torneoEditandoIndex];
     nuevoTorneo = new Torneo(nombre, fechaInicio, fechaFin, tExistente.torneo_id);
@@ -69,9 +69,20 @@ torneoForm.addEventListener('submit', function (e) {
     nuevoTorneo = new Torneo(nombre, fechaInicio, fechaFin, generarIdUnico());
     torneoService.agregarTorneo(nuevoTorneo);
   }
-
+  
   torneoForm.reset();
   torneoUI.renderTorneos();
   llenarSelectTorneosModal();
   cerrarModalTorneo();
 });
+
+// buscador para filtrar torneos por nombre
+const buscadorTorneos = document.getElementById('buscadorTorneos');
+
+buscadorTorneos.addEventListener('input', function() {
+  const texto = this.value.toLowerCase();
+  const torneos = torneoService.obtenerTorneos();
+  const torneosFiltrados = torneos.filter(t => t.nombre.toLowerCase().includes(texto));
+  torneoUI.renderTorneos(torneosFiltrados);
+});
+

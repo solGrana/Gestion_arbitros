@@ -6,8 +6,9 @@ export class TorneoUI {
     this.listaTorneos = document.getElementById('listaTorneos');
   }
 
-  renderTorneos() {
-    const torneos = this.servicio.obtenerTorneos();
+  // Agregamos un parámetro opcional para torneos filtrados
+  renderTorneos(torneosFiltrados = null) {
+    const torneos = torneosFiltrados || this.servicio.obtenerTorneos();
 
     if (!this.listaTorneos) {
       console.error('listaTorneos es null. El elemento no existe en el DOM.');

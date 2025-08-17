@@ -90,3 +90,13 @@ window.addEventListener('click', function (e) {
     cerrarModalPersona();
   }
 });
+
+const buscadorPersonas = document.getElementById('buscadorPersonas');
+
+buscadorPersonas.addEventListener('input', () => {
+  const filtro = buscadorPersonas.value.toLowerCase();
+  const todas = personaService.obtenerPersonas();
+
+  const filtradas = todas.filter(p => p.nombre.toLowerCase().includes(filtro));
+  personaUI.renderPersonas(filtradas);
+});

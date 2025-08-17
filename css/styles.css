@@ -253,6 +253,23 @@ li button {
 li button:hover {
   background-color: #3d4856;
 }
+/* Buscador de torneos */
+#buscadorTorneos,#buscadorPartidos,#buscadorPersonas {
+  width: 100%;
+  max-width: 400px; 
+  padding: 8px 12px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+#buscadorTorneos:focus,#buscadorPartidos:focus,#buscadorPersonas:focus {
+  outline: none;
+  border-color: #007bff; 
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
 
 .btn-asignado {
   background-color: #52b788 !important;
