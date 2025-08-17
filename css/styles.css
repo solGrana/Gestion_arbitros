@@ -63,8 +63,8 @@ header {
 .container {
   margin-top: 80px;
   margin-left: 15%;
-  width: 85%;
-  max-width: 1000px;
+  width: 100%;
+ /*  max-width: 100%; */
   background: #ffffff;
   border-radius: 16px;
   padding: 10px 30px 30px 30px;
@@ -198,6 +198,7 @@ li {
   line-height: 1.5;
   color: #4a4e69;
   word-break: break-word;
+
 }
 
 li button {
@@ -226,6 +227,8 @@ li button {
   border-radius: 10px;
   box-sizing: border-box;
   background: white;
+  max-width: 300px;
+  font-weight: 500;
 }
 
 #listaTorneos {

@@ -1,10 +1,13 @@
 import { guardarEnLocalStorage, obtenerDeLocalStorage } from '../utils.js';
+import { Torneo } from '../models/Torneo.js';
 
 const CLAVE = 'torneos';
 
 export class TorneoService {
   constructor() {
-    this.torneos = obtenerDeLocalStorage(CLAVE);
+    this.torneos = obtenerDeLocalStorage(CLAVE)?.map(t => new Torneo(
+      t.nombre, t.fechaInicio, t.fechaFin, t.torneo_id 
+    )) || []; 
   }
 
   obtenerTorneos() {

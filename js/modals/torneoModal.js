@@ -1,20 +1,15 @@
-/* import { TorneoService } from '../services/TorneoService.js';
-import { TorneoUI } from '../ui/torneoUI.js';
-import { llenarSelectTorneosModal } from './partidoModal.js'; */
-
 import { TorneoService } from '../services/torneoService.js';
 import { TorneoUI } from '../ui/torneoUI.js';
 import { llenarSelectTorneosModal } from './partidoModal.js';
+import { Torneo } from '../models/Torneo.js'; // <-- importamos la clase
 import { generarIdUnico } from '../utils.js';
 
 const torneoUI = new TorneoUI();
-
 
 const torneoForm = document.getElementById('torneoForm');
 const modalTorneo = document.getElementById('modalTorneo');
 const tituloModalTorneo = document.getElementById('tituloModalTorneo');
 
-/* const torneoUI = new TorneoUI(); */
 const torneoService = new TorneoService();
 
 let modoEdicionTorneo = false;
@@ -58,7 +53,7 @@ export function eliminarTorneo(index) {
 torneoForm.addEventListener('submit', function (e) {
   e.preventDefault();
 
-  const nombre = document.getElementById('nombreTorneo').value;
+  const nombre = document.getElementById('nombreTorneo').value.trim();
   const fechaInicio = document.getElementById('fechaInicio').value;
   const fechaFin = document.getElementById('fechaFin').value;
 
@@ -66,22 +61,12 @@ torneoForm.addEventListener('submit', function (e) {
 
   if (modoEdicionTorneo) {
     const tExistente = torneoService.obtenerTorneos()[torneoEditandoIndex];
-    nuevoTorneo = {
-      nombre,
-      fechaInicio,
-      fechaFin,
-      torneo_id: tExistente.torneo_id // mantener id existente
-    };
+    nuevoTorneo = new Torneo(nombre, fechaInicio, fechaFin, tExistente.torneo_id);
     torneoService.editarTorneo(torneoEditandoIndex, nuevoTorneo);
     modoEdicionTorneo = false;
     torneoEditandoIndex = null;
   } else {
-    nuevoTorneo = {
-      nombre,
-      fechaInicio,
-      fechaFin,
-      torneo_id: generarIdUnico() // solo al crear
-    };
+    nuevoTorneo = new Torneo(nombre, fechaInicio, fechaFin, generarIdUnico());
     torneoService.agregarTorneo(nuevoTorneo);
   }
 
@@ -90,4 +75,3 @@ torneoForm.addEventListener('submit', function (e) {
   llenarSelectTorneosModal();
   cerrarModalTorneo();
 });
-

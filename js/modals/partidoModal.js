@@ -1,5 +1,6 @@
 import { PartidoService } from '../services/partidoService.js';
 import { TorneoService } from '../services/torneoService.js';
+import { Partido } from '../models/Partido.js';
 
 const modalPartido = document.getElementById('modalPartido');
 const partidoFormModal = document.getElementById('partidoFormModal');
@@ -75,15 +76,15 @@ partidoFormModal.addEventListener('submit', function (e) {
     return;
   }
 
-  const nuevoPartido = {
-    torneo: modalTorneoSelect.value, // guardamos el torneo_id
-    fecha: document.getElementById('modalFechaPartido').value,
-    hora: document.getElementById('modalHoraPartido').value,
-    cancha: document.getElementById('modalCancha').value.trim(),
-    equipoLocal: document.getElementById('modalEquipoLocal').value.trim(),
-    equipoVisitante: document.getElementById('modalEquipoVisitante').value.trim(),
-    observaciones: document.getElementById('modalObservaciones').value.trim() || ''
-  };
+  const nuevoPartido = new Partido(
+    modalTorneoSelect.value, // guardamos el torneo_id
+    document.getElementById('modalFechaPartido').value,
+    document.getElementById('modalHoraPartido').value,
+    document.getElementById('modalCancha').value.trim(),
+    document.getElementById('modalEquipoLocal').value.trim(),
+    document.getElementById('modalEquipoVisitante').value.trim(),
+    document.getElementById('modalObservaciones').value.trim() || ''
+  );
   console.log("Partido a guardar:", nuevoPartido);
 
 if (modoEdicionPartidoModal) {

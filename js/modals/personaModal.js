@@ -1,5 +1,7 @@
 import { PersonaService } from '../services/personaService.js';
 import { PersonaUI } from '../ui/personaUI.js';
+import { Persona } from '../models/Persona.js'; 
+import { generarIdUnico } from '../utils.js';  
 
 const personaFormModal = document.getElementById('personaFormModal');
 const modalPersona = document.getElementById('modalPersona');
@@ -54,32 +56,36 @@ export function eliminarPersona(index) {
 personaFormModal.addEventListener('submit', function (e) {
   e.preventDefault();
 
-  const persona = {
-    nombre: document.getElementById('modalNombrePersona').value.trim(),
-    alias: document.getElementById('modalAlias').value.trim(),
-    celular: document.getElementById('modalCelular').value.trim(),
-    mail: document.getElementById('modalMail').value.trim(),
-    instagram: document.getElementById('modalInstagram').value.trim(),
-    localidad: document.getElementById('modalLocalidad').value.trim(),
-    tieneAuto: document.getElementById('modalTieneAuto').checked
-  };
+  const nombre = document.getElementById('modalNombrePersona').value.trim();
+  const alias = document.getElementById('modalAlias').value.trim();
+  const celular = document.getElementById('modalCelular').value.trim();
+  const mail = document.getElementById('modalMail').value.trim();
+  const instagram = document.getElementById('modalInstagram').value.trim();
+  const localidad = document.getElementById('modalLocalidad').value.trim();
+  const tieneAuto = document.getElementById('modalTieneAuto').checked;
 
-  if (!persona.nombre) {
+  if (!nombre) {
     alert('El nombre es obligatorio');
     return;
   }
 
+  const personaId = modoEdicionPersona
+    ? personaService.obtenerPersonas()[personaEditandoIndex].persona_id
+    : generarIdUnico();
+
+  const nuevaPersona = new Persona(nombre, alias, celular, mail, instagram, localidad, tieneAuto, personaId);
+
   if (modoEdicionPersona) {
-    personaService.editarPersona(personaEditandoIndex, persona);
+    personaService.editarPersona(personaEditandoIndex, nuevaPersona);
   } else {
-    personaService.agregarPersona(persona);
+    personaService.agregarPersona(nuevaPersona);
   }
 
   personaUI.renderPersonas();
   cerrarModalPersona();
 });
 
-window.addEventListener('click', function(e) {
+window.addEventListener('click', function (e) {
   if (e.target === modalPersona) {
     cerrarModalPersona();
   }

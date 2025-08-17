@@ -1,10 +1,14 @@
 import { guardarEnLocalStorage, obtenerDeLocalStorage } from '../utils.js';
+import { Persona } from '../models/Persona.js';
+
 
 const CLAVE = 'personas';
 
 export class PersonaService {
   constructor() {
-    this.personas = obtenerDeLocalStorage(CLAVE);
+    this.personas = obtenerDeLocalStorage(CLAVE)?.map(p => new Persona(
+      p.alias, p.celular, p.mail, p.instagram, p.localidad, p.tieneAuto, p.persona_id
+    )) || []; 
   }
 
   obtenerPersonas() {
