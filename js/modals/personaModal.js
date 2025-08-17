@@ -26,6 +26,8 @@ export function cerrarModalPersona() {
   modalPersona.classList.add('hidden');
   modoEdicionPersona = false;
   personaEditandoId = null;
+  personaFormModal.reset();
+  console.log('Modal Persona cerrado y modo edición reiniciado');
 }
 
 // Ahora recibe persona_id
@@ -60,7 +62,7 @@ export function eliminarPersona(persona_id) {
 
 personaFormModal.addEventListener('submit', function (e) {
   e.preventDefault();
-
+  
   const nombre = document.getElementById('modalNombrePersona').value.trim();
   const alias = document.getElementById('modalAlias').value.trim();
   const celular = document.getElementById('modalCelular').value.trim();
@@ -68,17 +70,18 @@ personaFormModal.addEventListener('submit', function (e) {
   const instagram = document.getElementById('modalInstagram').value.trim();
   const localidad = document.getElementById('modalLocalidad').value.trim();
   const tieneAuto = document.getElementById('modalTieneAuto').checked;
-
+  
   if (!nombre) {
     alert('El nombre es obligatorio');
     return;
   }
-
+  
   let nuevaPersona;
+
   if (modoEdicionPersona) {
     const pExistente = personaService.obtenerPersonas().find(p => p.persona_id === personaEditandoId);
     if (!pExistente) return;
-
+  
     // Creamos la persona usando el mismo ID
     nuevaPersona = new Persona(nombre, alias, celular, mail, instagram, localidad, tieneAuto, pExistente.persona_id);
     personaService.editarPersona(personaEditandoId, nuevaPersona);
@@ -87,12 +90,14 @@ personaFormModal.addEventListener('submit', function (e) {
     modoEdicionPersona = false;
     personaEditandoId = null;
   } else {
+
     nuevaPersona = new Persona(nombre, alias, celular, mail, instagram, localidad, tieneAuto, generarIdUnico());
     personaService.agregarPersona(nuevaPersona);
   }
 
   personaUI.renderPersonas();
   cerrarModalPersona();
+  personaFormModal.reset();
 });
 
 

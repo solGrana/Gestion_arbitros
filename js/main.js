@@ -4,9 +4,9 @@ import { TorneoUI } from './ui/torneoUI.js';
 import { PersonaUI } from './ui/personaUI.js';
 import { PartidoUI } from './ui/partidoUI.js';
 
-import { abrirModalTorneo, editarTorneo, eliminarTorneo } from './modals/torneoModal.js';
-import { abrirModalPersona, editarPersona, eliminarPersona } from './modals/personaModal.js';
-import { abrirModalPartido, editarPartidoPorId, eliminarPartidoPorId, llenarSelectTorneosModal } from './modals/partidoModal.js';
+import { abrirModalTorneo, editarTorneo, eliminarTorneo, cerrarModalTorneo } from './modals/torneoModal.js';
+import { abrirModalPersona, editarPersona, eliminarPersona, cerrarModalPersona } from './modals/personaModal.js';
+import { abrirModalPartido, editarPartidoPorId, eliminarPartidoPorId, cerrarModalPartido, llenarSelectTorneosModal } from './modals/partidoModal.js';
 import { abrirModalAsignacion } from './modals/asignacionModal.js';
 
 // Instancias UI y servicios
@@ -110,6 +110,22 @@ document.querySelectorAll('.close-button').forEach(btn => {
         if (modal) modal.classList.add('hidden');
     });
 });
+
+document.querySelectorAll('.close-button').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const modalId = btn.dataset.modal;
+        if (!modalId) return;
+
+        if (modalId === 'modalPersona') {
+            cerrarModalPersona();
+        } else if (modalId === 'modalTorneo') {
+            cerrarModalTorneo();
+        } else if (modalId === 'modalPartido') {
+            cerrarModalPartido();
+        }
+    });
+});
+
 
 // Exportar partido
 function exportarPartido(partido) {
