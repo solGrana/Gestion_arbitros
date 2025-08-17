@@ -16,13 +16,14 @@ export class TorneoUI {
     }
 
     this.listaTorneos.innerHTML = '';
-    torneos.forEach((torneo, index) => {
+
+    torneos.forEach((torneo) => {
       const li = document.createElement('li');
       li.innerHTML = `
-        ${torneo.nombre} (${torneo.fechaInicio} a ${torneo.fechaFin})
+        <span><strong>${torneo.nombre}</strong> (${torneo.fechaInicio} a ${torneo.fechaFin})</span>
         <div class="botones-torneo">
-          <button data-index="${index}" class="editar-torneo">Editar</button>
-          <button data-index="${index}" class="eliminar-torneo">Eliminar</button>
+          <button data-id="${torneo.torneo_id}" class="editar-torneo">Editar</button>
+          <button data-id="${torneo.torneo_id}" class="eliminar-torneo">Eliminar</button>
         </div>
       `;
       this.listaTorneos.appendChild(li);

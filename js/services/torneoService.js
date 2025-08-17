@@ -3,6 +3,11 @@ import { Torneo } from '../models/Torneo.js';
 
 const CLAVE = 'torneos';
 
+// Función para generar IDs únicos
+function generarIdUnico() {
+  return '_' + Math.random().toString(36).substr(2, 9);
+}
+
 export class TorneoService {
   constructor() {
     this.torneos = obtenerDeLocalStorage(CLAVE)?.map(t => new Torneo(
@@ -11,13 +16,11 @@ export class TorneoService {
   }
 
   obtenerTorneos() {
-    // Siempre devolver datos actualizados desde localStorage
-    this.torneos = obtenerDeLocalStorage(CLAVE);
+    this.torneos = obtenerDeLocalStorage(CLAVE) || [];
     return this.torneos;
   }
 
   agregarTorneo(torneo) {
-    // Asegurarse de que cada torneo tenga un torneo_id único
     if (!torneo.torneo_id) {
       torneo.torneo_id = generarIdUnico();
     }
@@ -25,15 +28,17 @@ export class TorneoService {
     this._guardar();
   }
 
-  editarTorneo(index, torneo) {
-    // Mantener el torneo_id original
-    torneo.torneo_id = this.torneos[index].torneo_id;
-    this.torneos[index] = torneo;
-    this._guardar();
+  editarTorneo(torneo_id, torneo) {
+    const index = this.torneos.findIndex(t => t.torneo_id === torneo_id);
+    if (index !== -1) {
+      torneo.torneo_id = torneo_id; // mantener el mismo id
+      this.torneos[index] = torneo;
+      this._guardar();
+    }
   }
 
-  eliminarTorneo(index) {
-    this.torneos.splice(index, 1);
+  eliminarTorneo(torneo_id) {
+    this.torneos = this.torneos.filter(t => t.torneo_id !== torneo_id);
     this._guardar();
   }
 

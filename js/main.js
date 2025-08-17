@@ -28,13 +28,13 @@ document.querySelector('#seccion-torneos > section.form-section > button')
 
 document.getElementById('listaTorneos').addEventListener('click', e => {
     if (e.target.classList.contains('editar-torneo')) {
-        const index = parseInt(e.target.dataset.index);
-        editarTorneo(index);
+        const torneo_id = e.target.dataset.id;  
+        editarTorneo(torneo_id);
         torneoUI.renderTorneos();
     }
     if (e.target.classList.contains('eliminar-torneo')) {
-        const index = parseInt(e.target.dataset.index);
-        eliminarTorneo(index);
+        const torneo_id = e.target.dataset.id;  
+        eliminarTorneo(torneo_id);
         partidoUI.renderPartidos();
         torneoUI.renderTorneos();
     }
@@ -47,13 +47,13 @@ document.querySelector('#seccion-personas > section.form-section > button')
 
 document.getElementById('listaPersonas').addEventListener('click', e => {
     if (e.target.classList.contains('editar-persona')) {
-        const index = parseInt(e.target.dataset.index);
-        editarPersona(index);
+        const persona_id =  e.target.dataset.id; 
+        editarPersona(persona_id);  // Edita por ID
         personaUI.renderPersonas();
     }
     if (e.target.classList.contains('eliminar-persona')) {
-        const index = parseInt(e.target.dataset.index);
-        eliminarPersona(index);
+        const persona_id =  e.target.dataset.id; 
+        eliminarPersona(persona_id); // Elimina por ID
     }
 });
 

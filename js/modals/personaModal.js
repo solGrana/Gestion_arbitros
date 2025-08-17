@@ -11,11 +11,11 @@ const personaUI = new PersonaUI();
 const personaService = new PersonaService();
 
 let modoEdicionPersona = false;
-let personaEditandoIndex = null;
+let personaEditandoId = null; // Cambiado de índice a persona_id
 
 export function abrirModalPersona() {
   modalPersona.classList.remove('hidden');
-  if (!modoEdicionPersona) {
+  if (!modoEdicionPersona) {   
     personaFormModal.reset();
     tituloModalPersona.textContent = 'Agregar Persona';
     personaFormModal.querySelector('button[type="submit"]').textContent = 'Guardar Persona';
@@ -25,11 +25,15 @@ export function abrirModalPersona() {
 export function cerrarModalPersona() {
   modalPersona.classList.add('hidden');
   modoEdicionPersona = false;
-  personaEditandoIndex = null;
+  personaEditandoId = null;
 }
 
-export function editarPersona(index) {
-  const p = personaService.obtenerPersonas()[index];
+// Ahora recibe persona_id
+export function editarPersona(persona_id) {
+  const p = personaService.obtenerPersonas().find(p => p.persona_id == persona_id);
+  console.log('Editando persona:', p);
+  if (!p) return console.error('Persona no encontrada:', persona_id);
+
   document.getElementById('modalNombrePersona').value = p.nombre;
   document.getElementById('modalAlias').value = p.alias;
   document.getElementById('modalCelular').value = p.celular;
@@ -39,16 +43,17 @@ export function editarPersona(index) {
   document.getElementById('modalTieneAuto').checked = p.tieneAuto;
 
   modoEdicionPersona = true;
-  personaEditandoIndex = index;
+  personaEditandoId = persona_id;
+
   tituloModalPersona.textContent = 'Editar Persona';
   personaFormModal.querySelector('button[type="submit"]').textContent = 'Guardar Cambios';
-
   abrirModalPersona();
 }
 
-export function eliminarPersona(index) {
+// Ahora recibe persona_id
+export function eliminarPersona(persona_id) {
   if (confirm('¿Eliminar esta persona?')) {
-    personaService.eliminarPersona(index);
+    personaService.eliminarPersona(persona_id);
     personaUI.renderPersonas();
   }
 }
@@ -69,15 +74,20 @@ personaFormModal.addEventListener('submit', function (e) {
     return;
   }
 
-  const personaId = modoEdicionPersona
-    ? personaService.obtenerPersonas()[personaEditandoIndex].persona_id
-    : generarIdUnico();
-
-  const nuevaPersona = new Persona(nombre, alias, celular, mail, instagram, localidad, tieneAuto, personaId);
-
+  let nuevaPersona;
   if (modoEdicionPersona) {
-    personaService.editarPersona(personaEditandoIndex, nuevaPersona);
+    const pExistente = personaService.obtenerPersonas().find(p => p.persona_id === personaEditandoId);
+    if (!pExistente) return;
+
+    // Creamos la persona usando el mismo ID
+    nuevaPersona = new Persona(nombre, alias, celular, mail, instagram, localidad, tieneAuto, pExistente.persona_id);
+    personaService.editarPersona(personaEditandoId, nuevaPersona);
+
+    // Reiniciamos modo edición
+    modoEdicionPersona = false;
+    personaEditandoId = null;
   } else {
+    nuevaPersona = new Persona(nombre, alias, celular, mail, instagram, localidad, tieneAuto, generarIdUnico());
     personaService.agregarPersona(nuevaPersona);
   }
 
@@ -85,11 +95,6 @@ personaFormModal.addEventListener('submit', function (e) {
   cerrarModalPersona();
 });
 
-window.addEventListener('click', function (e) {
-  if (e.target === modalPersona) {
-    cerrarModalPersona();
-  }
-});
 
 const buscadorPersonas = document.getElementById('buscadorPersonas');
 

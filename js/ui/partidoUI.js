@@ -45,7 +45,6 @@ export class PartidoUI {
 
       // Filtrar partidos por torneo_id
       const partidosDelTorneo = partidos.filter(p => p.torneo === torneo.torneo_id);
-       console.log(`Partidos filtrados para este torneo:`, partidosDelTorneo);
 
       if (partidosDelTorneo.length === 0) {
         const li = document.createElement('li');
